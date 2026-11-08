@@ -77,6 +77,8 @@ Last checked on 2026-11-08 with Argo 0.42.1 and Playwright 1.65.0.
 - Claude Code lists the `make-video` skill, but no video has been made through it yet.
 - Cursor has not been opened. Its documentation says it reads `AGENTS.md` and `.claude/skills/`.
 
-## Known issues
+## Dependency override
 
-`npm audit` reports 4 high-severity issues. All four come from sharp 0.34.5, an image library that the voice engine depends on, and npm offers no fix yet. The advisories are in sharp's bundled image libraries. This project only processes your own demos, so sharp stays in place for now.
+`package.json` overrides sharp to 0.35.5. The voice engine depends on `@huggingface/transformers` 3.8.1, which asks for sharp 0.34, and `npm audit` flags that version with high-severity issues. With the override, `npm audit` reports 0 vulnerabilities and `npm run sample` still renders from a clean install.
+
+Remove the override once `kokoro-js` moves to a `@huggingface/transformers` release that requires sharp 0.35.5 or newer.
