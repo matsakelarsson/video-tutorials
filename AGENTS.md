@@ -29,6 +29,8 @@ A demo is two files in `demos/` with the same name. `<app>-<topic>.demo.ts` hold
 - Click through `createHumanCursor` and type with `demoType`, so the viewer can follow each action.
 - Finish each scene with `await page.waitForTimeout(narration.durationFor('scene'))`. It waits only for the narration time that remains.
 - Write narration as spoken sentences, with no symbols or markup. Keep each scene to one action.
+- To enlarge an app's text, set a smaller `video` width and height in the Argo config. CSS `zoom` shifts Argo's cursor away from what it clicks, because the cursor sits inside the page.
+- Argo captures only when the page repaints, so a still last scene reports an overflow and holds its final frame. Move the cursor at the end of that scene to keep the recording running.
 
 ## Platform notes
 
