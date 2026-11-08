@@ -15,12 +15,11 @@ npm run setup
 npm run sample
 ```
 
-On a Mac, install [Homebrew](https://brew.sh) first. The repository is private, so the Mac also needs a GitHub login:
+On a Mac, install [Homebrew](https://brew.sh) first:
 
 ```bash
-brew install git node gh
-gh auth login
-gh repo clone matsakelarsson/video-tutorials
+brew install git node
+git clone https://github.com/matsakelarsson/video-tutorials.git
 cd video-tutorials
 npm run setup
 npm run sample
