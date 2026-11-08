@@ -32,6 +32,7 @@ A demo is two files in `demos/` with the same name. `<app>-<topic>.demo.ts` hold
 - Click through `createHumanCursor` and type with `demoType`, so the viewer can follow each action.
 - Finish each scene with `await page.waitForTimeout(narration.durationFor('scene'))`. It waits only for the narration time that remains.
 - Write narration as spoken sentences, with no symbols or markup. Keep each scene to one action.
+- Write narration casually, the way people talk to a coworker. Use contractions and everyday words such as "just", "hit" and "got it", put a comma where a speaker would pause, and give each scene at least 50 characters, because Kokoro is weaker on short lines.
 - To enlarge an app's text, set a smaller `video` width and height in the Argo config. CSS `zoom` shifts Argo's cursor away from what it clicks, because the cursor sits inside the page.
 - Argo captures only when the page repaints, so a still last scene reports an overflow and holds its final frame. Move the cursor at the end of that scene to keep the recording running.
 - Call `test.setTimeout(120_000)`, or a larger value, in any demo longer than 30 seconds. Playwright stops a test at 30 seconds by default.
@@ -44,6 +45,9 @@ A demo is two files in `demos/` with the same name. `<app>-<topic>.demo.ts` hold
 - Call `await sounds.play('phone-ring')` for the ring. It returns when the sound has finished.
 - Render with `npm run video -- <demo> --base-url <url>` instead of `npx argo pipeline`. Argo's loudness step raises a sound that plays alone to the level of the voices, so this command turns the video down while the ring plays. Play the ring in a silent scene, because anything else at that moment gets quieter too.
 - Give each spoken line its own scene and set `voice` on it. The example uses `af_heart` for the employee and `am_michael` for the caller.
+- `am_michael` talks about 10 percent slower than `af_heart`, so its scenes set `speed` to 1.2 against the default of 1.1.
+- When a speaker says they will do a task, put the `narration.durationFor` wait before the clicks. The speaker finishes the line, then does the task while nobody talks, so the conversation pauses and the click and key sounds play in that pause.
+- Keep Argo's default pause between speakers. To change how fast someone talks, change `speed` and leave the gaps alone.
 - A scene with no `text` is silent, so the ring can play before anyone speaks.
 - Name the speaker in each scene with a `lower-third` overlay, such as `Emma, support`.
 - Use a made-up caller, company and details.
@@ -53,9 +57,12 @@ A demo is two files in `demos/` with the same name. `<app>-<topic>.demo.ts` hold
 
 ## Platform notes
 
-- Videos get made where only Cursor or Claude Code is available. Keep rendering local, with no AI API, API key or separate speech server.
+- Videos get made on Apple Silicon Macs where only Cursor or Claude Code is available. Keep rendering local, with no AI API or API key. A Python speech server running on the same machine is allowed.
 - In Cursor, if a render can't start its browser or download the voice model, run it outside Cursor's sandbox.
 - Linux and macOS share one config and one local voice, Kokoro, so a demo renders the same on either machine.
+- `argo.config.mjs` selects Kokoro's full-precision model, `fp32`. It is a 326 MB download, and `npm run setup` deletes it along with `node_modules`, so the next render downloads it again.
+- Argo's clip hash ignores the model. After changing `dtype`, delete `.argo/<demo>/clips` or the old clips stay in the video.
 - Set `VIDEO_SCALE=1` for a run if a machine can't keep up with the default 4K capture.
+- A render that generates new voice clips can record its browser actions slowly, leaving long gaps in the scene report. After changing narration, run `npx argo tts generate demos/<demo>.scenes.json` before the render, so the recording starts with every clip cached.
 - `argo doctor` reports Playwright browsers as missing even when they are installed. Trust `npm run sample` instead.
 - Commit `package-lock.json` changes only from `npm install` runs that were meant to change dependencies.

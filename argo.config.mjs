@@ -1,12 +1,14 @@
-import { defineConfig } from '@argo-video/cli';
+import { defineConfig, engines } from '@argo-video/cli';
 
 export default defineConfig({
   baseURL: 'http://localhost:3000',
   demosDir: 'demos',
   outputDir: 'videos',
   tts: {
+    // Argo defaults to the 92 MB 8-bit model. fp32 is the 326 MB full-precision one.
+    engine: engines.kokoro({ dtype: 'fp32' }),
     defaultVoice: 'af_heart',
-    defaultSpeed: 1.0,
+    defaultSpeed: 1.1,
   },
   video: {
     width: 1920,

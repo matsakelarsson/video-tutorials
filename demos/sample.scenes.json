@@ -1,7 +1,7 @@
 [
   {
     "scene": "intro",
-    "text": "This is a short sample video. It proves that recording, narration and export all work on this computer.",
+    "text": "Hey, this is just a quick sample video. If you can see this and hear me, everything's working.",
     "overlay": {
       "type": "lower-third",
       "text": "Sample video",
@@ -10,7 +10,7 @@
   },
   {
     "scene": "add-task",
-    "text": "To add a task, type it into the field and press the add button.",
+    "text": "To add a task, just type it in up here and hit the add button.",
     "overlay": {
       "type": "headline-card",
       "title": "Add a task",
@@ -21,6 +21,6 @@
   },
   {
     "scene": "done",
-    "text": "When the work is finished, tick the box next to it."
+    "text": "Once you're done with it, just tick the box next to it."
   }
 ]

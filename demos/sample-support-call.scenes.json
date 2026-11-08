@@ -11,7 +11,7 @@
   },
   {
     "scene": "greeting",
-    "text": "Thanks for calling support, this is Emma. How can I help?",
+    "text": "Hey there, it's Emma in support. What can I do for you?",
     "voice": "af_heart",
     "overlay": {
       "type": "lower-third",
@@ -21,8 +21,9 @@
   },
   {
     "scene": "problem",
-    "text": "Hi Emma, it's Daniel at Harbour Books. We never received our March invoice. Could you send it again?",
+    "text": "Hey Emma, it's Daniel over at Harbour Books. We never got our March invoice, can you send it again?",
     "voice": "am_michael",
+    "speed": 1.2,
     "overlay": {
       "type": "lower-third",
       "text": "Daniel, customer",
@@ -31,7 +32,7 @@
   },
   {
     "scene": "search",
-    "text": "Of course, Daniel. Let me find your account.",
+    "text": "Sure thing, Daniel. Hang on a sec, I'll pull up your account.",
     "voice": "af_heart",
     "overlay": {
       "type": "lower-third",
@@ -41,7 +42,7 @@
   },
   {
     "scene": "resend",
-    "text": "I can see the March invoice here, so I'll send it again now.",
+    "text": "Okay, there it is, your March invoice. I'm sending it over now.",
     "voice": "af_heart",
     "overlay": {
       "type": "lower-third",
@@ -51,8 +52,9 @@
   },
   {
     "scene": "thanks",
-    "text": "It just arrived. Thanks for the quick help.",
+    "text": "Oh nice, got it, it just came in. Thanks, that was quick.",
     "voice": "am_michael",
+    "speed": 1.2,
     "overlay": {
       "type": "lower-third",
       "text": "Daniel, customer",
@@ -61,7 +63,7 @@
   },
   {
     "scene": "goodbye",
-    "text": "You're welcome. Have a good day.",
+    "text": "No problem at all, Daniel. You have a good one, bye now.",
     "voice": "af_heart",
     "overlay": {
       "type": "lower-third",

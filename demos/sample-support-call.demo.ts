@@ -90,22 +90,23 @@ test('sample-support-call', async ({ page, narration, sounds }) => {
     await page.waitForTimeout(narration.durationFor('problem'));
   });
 
+  // Emma says what she will do, then works while nobody speaks, so the call pauses.
   // Clicks and key presses make their sounds automatically.
   narration.mark('search');
   await withOverlay(page, 'search', async () => {
+    await page.waitForTimeout(narration.durationFor('search'));
     const field = page.getByRole('searchbox', { name: 'Find a customer' });
     await cursor.click(field);
     await demoType(page, field, 'Harbour');
     await cursor.click(page.getByRole('button', { name: 'Harbour Books' }));
     await expect(page.getByRole('heading', { name: 'Harbour Books' })).toBeVisible();
-    await page.waitForTimeout(narration.durationFor('search'));
   });
 
   narration.mark('resend');
   await withOverlay(page, 'resend', async () => {
+    await page.waitForTimeout(narration.durationFor('resend'));
     await cursor.click(page.getByRole('row', { name: /March/ }).getByRole('button', { name: 'Send again' }));
     await expect(page.getByRole('status')).toContainText('March invoice sent');
-    await page.waitForTimeout(narration.durationFor('resend'));
   });
 
   narration.mark('thanks');

@@ -65,11 +65,21 @@ The sounds rely on an undocumented part of Argo's export, so confirm they're sti
 
 ## Voices
 
-The default voice is Kokoro. It runs locally on both systems and needs no API key.
+The default voice is Kokoro. It runs locally on both systems and needs no API key. This repository uses its full-precision model, which the first render downloads at 326 MB.
 
 Argo can also use paid voices from ElevenLabs or OpenAI, through `engines.*` in `argo.config.mjs`. `npx argo doctor` prints the package each engine needs.
 
 Argo's built-in voice cloning uses mlx-audio, which targets Apple Silicon, so it is an option on the Mac only. It is not installed or tested here. Chatterbox is a local model with voice cloning that could use an NVIDIA GPU on Linux, but Argo's README doesn't list it, so it would need custom integration.
+
+The next step is to try mlx-audio on a Mac, for more natural voices than Kokoro. Nobody has run this yet. Argo's `engines.mlxAudio` talks to mlx-audio's local Python server, which needs no API key or account. Start with an ear test that needs no server:
+
+```bash
+brew install uv
+uv tool install --force mlx-audio --prerelease=allow
+mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit --voice Vivian --text "Hey there, it's Emma in support. What can I do for you?"
+```
+
+The command saves `audio_000.wav` in the current folder. If it sounds better than Kokoro, start `mlx_audio.server --port 8000`, set `tts.engine` to `engines.mlxAudio({ model })` in `argo.config.mjs`, and replace the Kokoro voice names in the scene files, because each model has its own voices. Check each model's licence before using it in a video about a paid product. Linux stays on Kokoro, because mlx-audio lists only Apple Silicon.
 
 ## Capture choice
 
