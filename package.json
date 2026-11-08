@@ -5,7 +5,8 @@
     "setup": "bash scripts/setup.sh",
     "doctor": "argo doctor",
     "sample": "argo pipeline sample",
-    "video": "argo pipeline",
+    "sample:call": "node scripts/render.mjs sample-support-call",
+    "video": "node scripts/render.mjs",
     "preview": "argo preview",
     "validate": "argo validate"
   },

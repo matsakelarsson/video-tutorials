@@ -1,0 +1,72 @@
+[
+  {
+    "scene": "ring",
+    "overlay": {
+      "type": "headline-card",
+      "title": "Incoming call",
+      "body": "Daniel, Harbour Books",
+      "placement": "top-right",
+      "motion": "slide-in"
+    }
+  },
+  {
+    "scene": "greeting",
+    "text": "Thanks for calling support, this is Emma. How can I help?",
+    "voice": "af_heart",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Emma, support",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "problem",
+    "text": "Hi Emma, it's Daniel at Harbour Books. We never received our March invoice. Could you send it again?",
+    "voice": "am_michael",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Daniel, customer",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "search",
+    "text": "Of course, Daniel. Let me find your account.",
+    "voice": "af_heart",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Emma, support",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "resend",
+    "text": "I can see the March invoice here, so I'll send it again now.",
+    "voice": "af_heart",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Emma, support",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "thanks",
+    "text": "It just arrived. Thanks for the quick help.",
+    "voice": "am_michael",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Daniel, customer",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "goodbye",
+    "text": "You're welcome. Have a good day.",
+    "voice": "af_heart",
+    "overlay": {
+      "type": "lower-third",
+      "text": "Emma, support",
+      "motion": "fade-in"
+    }
+  }
+]

@@ -49,6 +49,20 @@ The finished video and captions land in `videos/`.
 
 `AGENTS.md` lists the rules for preparing an app and writing a demo, such as recording only demo data and logging in before the recording starts.
 
+## Sound effects and support calls
+
+`lib/sounds.ts` adds a click to every mouse press, a key sound to every typed character and a phone ring where the script asks for one. Each scene can also use its own voice, so a video can play out as a conversation.
+
+`npm run sample:call` renders a complete example to `videos/sample-support-call.mp4`. It needs no running app.
+
+In Cursor or Claude Code, ask for it like this:
+
+> Make a support call video of the app at ~/tools/my-app. The phone rings, a customer says they can't find their invoice, and the employee finds it in the app while they talk. Add click and typing sounds.
+
+To render your own demo with sounds, use `npm run video -- <demo> --base-url <url>`. To change how loud a click or key sound is, edit its `gain` in `lib/sounds.ts`. For the ring, edit its `quieterDb` value there. `assets/sfx/README.md` lists where each sound comes from. The phone ring is synthesized, and that file explains how to replace it with a real recording.
+
+The sounds rely on an undocumented part of Argo's export, so confirm they're still in the video after upgrading Argo.
+
 ## Voices
 
 The default voice is Kokoro. It runs locally on both systems and needs no API key.
@@ -73,8 +87,9 @@ Last checked on 2026-11-08 with Argo 0.42.1 and Playwright 1.65.0.
 
 - Linux passed. A fresh clone ran `npm run setup` and `npm run sample` and produced a 17-second 1080p video with voice and captions.
 - macOS has not run on a real Mac. npm resolves the Apple Silicon packages from the lockfile, and `scripts/setup.sh` runs on bash 3.2 with its install commands replaced by stand-ins.
-- Claude Code lists the `make-video` skill, but no video has been made through it yet.
-- Cursor has not been opened. Its documentation says it reads `AGENTS.md` and `.claude/skills/`.
+- Claude Code has made a video through the `make-video` skill on Linux.
+- The support call example rendered on Linux. A speech transcription, level measurements and a person listening checked its audio.
+- Cursor 3.29.9 on Linux rendered the support call example and made a new demo through the `make-video` skill.
 
 ## Dependency override
 
