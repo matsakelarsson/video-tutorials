@@ -7,6 +7,7 @@
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { MLX_SERVER } from '../lib/mlx-takes.mjs';
+import { QWEN3_MODEL, qwen3IsDownloaded } from '../lib/qwen3.mjs';
 
 // The classic telephone band, with a small boost where phones sound most present. Phone
 // lines are heavily compressed, and that also brings them up to the level of the other voice.
@@ -27,6 +28,13 @@ if (!demo) {
 const clips = `.argo/${demo}/clips`;
 const engineFile = `${clips}/.voices`;
 const engine = ['marvis', 'qwen3'].includes(process.env.VOICES) ? process.env.VOICES : 'kokoro-misaki';
+
+// Qwen3 is about 3 GB, so downloading it is a separate step that someone chooses to run.
+if (engine === 'qwen3' && !qwen3IsDownloaded()) {
+  console.error(`Qwen3 isn't on this machine, and a render doesn't download it. To download it, about 3 GB, run:\n\n  "$(uv tool dir)/mlx-audio/bin/hf" download ${QWEN3_MODEL}\n`);
+  process.exit(1);
+}
+
 if ((existsSync(engineFile) ? readFileSync(engineFile, 'utf8') : 'kokoro') !== engine) rmSync(clips, { recursive: true, force: true });
 mkdirSync(clips, { recursive: true });
 writeFileSync(engineFile, engine);

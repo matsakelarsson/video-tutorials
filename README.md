@@ -89,7 +89,7 @@ Qwen3 is a third local voice for Apple Silicon, and it takes a plain-English dir
 VOICES=qwen3 npm run sample:call
 ```
 
-The first run downloads about 3 GB. Takes are transcribed and retried the same way as Marvis. Its English presets are both male, so female voices use Vivian, whose home language is Chinese. At `speed` 1 it says about 19 characters per second of speech, and only the speech is sped up, so the pauses keep their length. A general direction read every word correctly in a test, while one that said how to pronounce particular words garbled the line. On 2026-11-09 a Qwen3 take won a one-line comparison by ear, and Kokoro stayed the default after a listen to the whole call. The model card lists the Apache 2.0 licence.
+A render never downloads this model. If it's missing, the render stops before changing anything and prints the command that downloads it, about 3 GB. Run that once, then render again. Takes are transcribed and retried the same way as Marvis. Its English presets are both male, so female voices use Vivian, whose home language is Chinese. At `speed` 1 it says about 19 characters per second of speech, and only the speech is sped up, so the pauses keep their length. A general direction read every word correctly in a test, while one that said how to pronounce particular words garbled the line. On 2026-11-09 a Qwen3 take won a one-line comparison by ear, and Kokoro stayed the default after a listen to the whole call. The model card lists the Apache 2.0 licence.
 
 Five local models read the six support call lines on an Apple M1 with 8 GB on 2026-11-09. Nobody has compared them by ear yet.
 
