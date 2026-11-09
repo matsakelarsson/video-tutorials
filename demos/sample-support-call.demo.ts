@@ -27,6 +27,7 @@ const PAGE = `<!doctype html>
   <ul id="customers"></ul>
   <section id="account" hidden>
     <h2 id="company"></h2>
+    <p id="billing"></p>
     <table><tbody id="invoices"></tbody></table>
     <div id="sent" role="status" hidden></div>
   </section>
@@ -49,6 +50,7 @@ const PAGE = `<!doctype html>
   }
   function open(name) {
     document.getElementById('company').textContent = name;
+    document.getElementById('billing').textContent = 'Invoices go to accounts@harbourbooks.example';
     document.getElementById('invoices').replaceChildren(...months.map((month) => {
       const row = document.createElement('tr');
       row.innerHTML = '<td>' + month + ' invoice</td><td><button>Send again</button></td>';
@@ -111,11 +113,19 @@ test('sample-support-call', async ({ page, narration, sounds }) => {
     await page.waitForTimeout(narration.durationFor('search', silence));
   });
 
-  // A period is too short a pause in Kokoro, so a beat inside one person's turn is a scene
-  // break with a longer lead-out.
+  // A period is too short a pause in Kokoro, so the quiet lookup inside Emma's turn is a scene
+  // break with a longer lead-out on the scene before it.
   narration.mark('found');
   await withOverlay(page, 'found', async () => {
-    await page.waitForTimeout(narration.durationFor('found', { leadOutMs: 900 }));
+    // She goes to the billing address as she reads it back.
+    await page.waitForTimeout(Math.max(0, narration.durationFor('found') - 2800));
+    await cursor.moveTo(page.getByText('Invoices go to'), { durationMs: 800 });
+    await page.waitForTimeout(narration.durationFor('found'));
+  });
+
+  narration.mark('address');
+  await withOverlay(page, 'address', async () => {
+    await page.waitForTimeout(narration.durationFor('address'));
   });
 
   narration.mark('resend');
@@ -146,7 +156,12 @@ test('sample-support-call', async ({ page, narration, sounds }) => {
 
   narration.mark('goodbye');
   await withOverlay(page, 'goodbye', async () => {
-    await page.waitForTimeout(Math.max(0, narration.durationFor('goodbye') - 700));
+    await page.waitForTimeout(narration.durationFor('goodbye'));
+  });
+
+  narration.mark('lastbye');
+  await withOverlay(page, 'lastbye', async () => {
+    await page.waitForTimeout(Math.max(0, narration.durationFor('lastbye') - 700));
     // Argo captures on repaint, so a last move keeps the recording running to the end.
     await cursor.moveTo(page.getByRole('status'), { durationMs: 700 });
   });

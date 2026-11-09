@@ -10,7 +10,7 @@ The rules in `AGENTS.md` apply to every step.
 1. Establish the target. You need the app's source folder, its start command, its local URL and the task the viewer should learn. Ask for anything the request and the source don't give you.
 2. Read the app's source for the labels and roles on the screens involved.
 3. Start the app with demo data. If the app has no seed script, ask before writing to its database.
-4. Write `demos/<app>-<topic>.scenes.json` and `demos/<app>-<topic>.demo.ts`. Start from `demos/sample.demo.ts`. For a support call or any video with sound effects, start from `demos/sample-support-call.demo.ts` and follow "Sound effects and support calls" in `AGENTS.md`. For a support call, write the lines by "Writing the dialog for a support call" in `AGENTS.md`.
+4. Write `demos/<app>-<topic>.scenes.json` and `demos/<app>-<topic>.demo.ts`. Start from `demos/sample.demo.ts`. For a support call or any video with sound effects, start from `demos/sample-support-call.demo.ts` and follow "Sound effects and support calls" in `AGENTS.md`. For a support call, write the lines by `.claude/skills/write-support-dialog/SKILL.md` and "Writing the dialog for a support call" in `AGENTS.md`.
 5. Run `npx argo validate <app>-<topic>` and fix what it reports.
 6. Run `npx argo pipeline <app>-<topic> --base-url <url>`. If a selector fails, fix the demo and run it again. If the demo imports `../lib/sounds`, run `npm run video -- <app>-<topic> --base-url <url>` instead, so the phone ring plays at the right volume.
 7. Check the result before reporting it.

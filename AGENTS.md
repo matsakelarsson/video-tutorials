@@ -59,6 +59,8 @@ A demo is two files in `demos/` with the same name. `<app>-<topic>.demo.ts` hold
 
 ## Writing the dialog for a support call
 
+`.claude/skills/write-support-dialog/SKILL.md` covers what support staff and callers really say, including the opening every employee uses. This section covers the voices and timing.
+
 Write for how the voices really behave, and let work take as long as it would in real life. `demos/sample-support-call` follows every rule here.
 
 A test on 2026-11-09 measured the average pause each mark makes in short casual phrases, in milliseconds. The Kokoro column predates the switch to misaki, so its pauses may now differ a little:

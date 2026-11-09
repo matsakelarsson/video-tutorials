@@ -11,7 +11,7 @@
   },
   {
     "scene": "greeting",
-    "text": "Hey there, it's Emma in support. What can I do for you?",
+    "text": "Fernhill support. Emma speaking. How can I help you today?",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -22,7 +22,7 @@
   },
   {
     "scene": "problem",
-    "text": "Hey Emma, it's Daniel over at Harbour Books. We never got our March invoice. Can you send it again?",
+    "text": "Hi Emma. It's Daniel over at Harbour Books. So I was just going through our accounts and I can't find the March invoice anywhere. I don't think we ever got it. I was wondering if you could send it again.",
     "voice": "am_michael",
     "speed": 1.3,
     "phone": true,
@@ -34,7 +34,7 @@
   },
   {
     "scene": "search",
-    "text": "Sure thing, Daniel. Hang on a sec. I'll just pull up your account.",
+    "text": "Oh, sorry about that, Daniel. Yeah, of course. Give me one second. I'll just pull up your account.",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -45,7 +45,7 @@
   },
   {
     "scene": "found",
-    "text": "Okay, there it is. I've got your March invoice right here.",
+    "text": "All right. There it is. I've got your March invoice right here. And that goes to your accounts email, right?",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -55,8 +55,20 @@
     }
   },
   {
+    "scene": "address",
+    "text": "Yeah, that's the one. I looked in there and the spam folder too. There's just nothing.",
+    "voice": "am_michael",
+    "speed": 1.3,
+    "phone": true,
+    "overlay": {
+      "type": "lower-third",
+      "text": "Daniel, customer",
+      "motion": "fade-in"
+    }
+  },
+  {
     "scene": "resend",
-    "text": "I'm sending that over to you now. Just give it a moment.",
+    "text": "Okay, that's weird. I'll go ahead and send it over again right now.",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -90,7 +102,7 @@
   },
   {
     "scene": "thanks",
-    "text": "Oh nice. There it is. It just came in. Thanks for sorting that out.",
+    "text": "Oh nice. There it is. It just came in. Thanks so much for sorting that out.",
     "voice": "am_michael",
     "speed": 1.3,
     "phone": true,
@@ -102,12 +114,24 @@
   },
   {
     "scene": "goodbye",
-    "text": "No problem at all, Daniel. You have a good one. Bye now.",
+    "text": "No problem at all, Daniel. You have a good one. Bye bye.",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
       "type": "lower-third",
       "text": "Emma, support",
+      "motion": "fade-in"
+    }
+  },
+  {
+    "scene": "lastbye",
+    "text": "You too. Thanks again for all your help, Emma. Bye.",
+    "voice": "am_michael",
+    "speed": 1.3,
+    "phone": true,
+    "overlay": {
+      "type": "lower-third",
+      "text": "Daniel, customer",
       "motion": "fade-in"
     }
   }
