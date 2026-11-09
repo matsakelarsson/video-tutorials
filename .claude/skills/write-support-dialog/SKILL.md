@@ -30,14 +30,14 @@ If the employee is the one phoning, the customer answers first, so the employee 
 The caller greets back, then tells a small story instead of making a tidy request.
 
 - Greet first, often with the name they just heard: "Hi Maya." More than half of real callers open with a greeting and about a quarter use the employee's name.
-- Say who they are if the employee will need it: "It's Tom over at Lakeside Bakery."
+- Say who they are if the employee will need it: "It's Tom from Lakeside Bakery."
 - Describe what happened before asking for anything, and hedge: "So I was just looking at", "I'm trying to", "I was wondering if", "I think".
 - Include one detail nobody needed, or a small correction. Real callers are wordier and less organised than written ones.
 - Skip the small talk at the start. "How are you" came up in about 6 percent of real openings.
 
 > Stiff: Hello. I would like to request a refund for a duplicate charge on my account.
 >
-> Real: Hi Maya. It's Tom over at Lakeside Bakery. So I was just going through our bank statement and I think you guys charged us twice this month.
+> Real: Hi Maya. It's Tom from Lakeside Bakery. So I was just going through our bank statement and I think you guys charged us twice this month.
 
 ## 3. The employee takes it in and asks
 
@@ -122,7 +122,7 @@ Each line is one scene. Brackets are notes for the demo script, because the scen
 ```
 (ring, silent scene)
 Maya: Fernhill support. Maya speaking. How can I help you today?
-Tom:  Hi Maya. It's Tom over at Lakeside Bakery. So I was just going through our bank statement and I think you guys charged us twice this month.
+Tom:  Hi Maya. It's Tom from Lakeside Bakery. So I was just going through our bank statement and I think you guys charged us twice this month.
 Maya: Oh no, sorry about that. Okay, let me take a look. What town is the account under?
 Tom:  Yeah, sure. That'd be Alderton. Well, the main shop is, anyway.
 Maya: Okay, got it. Give me one second. I'll just pull that up for you. [searches, opens payments, a few seconds of quiet]

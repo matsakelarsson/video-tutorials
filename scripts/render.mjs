@@ -6,7 +6,7 @@
 // digitally silent. The room tone goes in after Argo's loudness step, which would raise it.
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
-import { MARVIS_SERVER } from '../lib/marvis.mjs';
+import { MLX_SERVER } from '../lib/mlx-takes.mjs';
 
 // The classic telephone band, with a small boost where phones sound most present. Phone
 // lines are heavily compressed, and that also brings them up to the level of the other voice.
@@ -26,13 +26,13 @@ if (!demo) {
 // Argo's clip hash ignores the voice engine, so a change of engine must clear the old clips.
 const clips = `.argo/${demo}/clips`;
 const engineFile = `${clips}/.voices`;
-const engine = process.env.VOICES === 'marvis' ? 'marvis' : 'kokoro-misaki';
+const engine = ['marvis', 'qwen3'].includes(process.env.VOICES) ? process.env.VOICES : 'kokoro-misaki';
 if ((existsSync(engineFile) ? readFileSync(engineFile, 'utf8') : 'kokoro') !== engine) rmSync(clips, { recursive: true, force: true });
 mkdirSync(clips, { recursive: true });
 writeFileSync(engineFile, engine);
 
 // Every clip is made before the recording starts, so the browser actions stay smooth.
-const stopServer = engine === 'marvis' ? await startMarvisServer() : () => {};
+const stopServer = engine === 'kokoro-misaki' ? () => {} : await startMlxServer();
 const voices = spawnSync('npx', ['argo', 'tts', 'generate', `demos/${demo}.scenes.json`], { stdio: 'inherit' });
 stopServer();
 if (voices.status !== 0) process.exit(voices.status ?? 1);
@@ -89,15 +89,15 @@ if (filters.length || phoneLines.length) {
 }
 
 // The server runs only while the clips are made, so its memory is free for the 4K capture.
-async function startMarvisServer() {
-  const server = spawn('mlx_audio.server', ['--port', new URL(MARVIS_SERVER).port], { stdio: 'ignore' });
+async function startMlxServer() {
+  const server = spawn('mlx_audio.server', ['--port', new URL(MLX_SERVER).port], { stdio: 'ignore' });
   server.on('error', () => {
     console.error('mlx_audio.server not found. Install it with: uv tool install --force mlx-audio --prerelease=allow');
     process.exit(1);
   });
   for (let waited = 0; ; waited++) {
     try {
-      await fetch(`${MARVIS_SERVER}/v1/models`);
+      await fetch(`${MLX_SERVER}/v1/models`);
       break;
     } catch (error) {
       if (waited === 120) throw new Error(`mlx-audio's server did not start: ${error.message}`);

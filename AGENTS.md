@@ -81,6 +81,13 @@ Pauses:
 - A period in a full Kokoro line pauses for about 0.3 seconds. For a longer beat inside one person's turn, split the turn into two scenes with the same voice and pass `leadOutMs` to the first scene's `narration.durationFor`. The gap is about `leadOutMs` plus 0.2 seconds, so 900 gives 1.1 seconds. Each half still needs 50 characters.
 - Marvis can stop for more than a second at each period in a run of very short sentences, so listen to those lines.
 
+Stress:
+
+- Kokoro takes its stress from misaki, which can put full stress on a small word a person would rush through. "It's Daniel over at Harbour Books" sounded weird to a listener, and misaki stresses "over" there.
+- To see a line's stress, run `echo '{"text": "Your line.", "british": false}' | .venv/bin/python lib/misaki_g2p.py`. A `ˈ` marks full stress.
+- Reword a line when full stress lands on a small word in front of the word that matters, such as "over at" or "looked in there". Write "from Harbour Books" or "I checked it" instead. A small word that ends the phrase is fine, as in "it just came in".
+- Reword a short sentence with no full stress at all. "There it is" has none, and "Here it is" has one.
+
 Work that takes time:
 
 - Anything that happens outside the conversation takes real time, such as an email, a payment or a refund. Nobody reacts to the result before it could have happened.
@@ -99,8 +106,9 @@ Work that takes time:
 - Clips made before the switch to misaki stay in the video until `.argo/<demo>/clips` is deleted. `npm run video` clears them itself, but `npx argo pipeline` doesn't.
 - misaki's eSpeak fallback stopped with a `phontab` error when `.venv` sat under a path of about 180 characters, and worked from a shorter one. Keep the repository in a short path.
 - `VOICES=marvis npm run video -- <demo>` uses Marvis instead, a conversational voice for Apple Silicon only. The README's Voices section explains it. Scenes keep their Kokoro voice names, and Marvis ignores `speed`.
+- `VOICES=qwen3 npm run video -- <demo>` uses Qwen3 instead, a voice for Apple Silicon that follows a plain-English direction set for each voice in `lib/qwen3.mjs`. Keep a direction general, because one that said how to pronounce particular words garbled the line in a test. Scenes keep their Kokoro voice names. At `speed` 1 Qwen3 says about 19 characters per second of speech, and `lib/pace.mjs` stretches only the speech, up to 1.5 times, so the pauses keep their length.
 - `argo.config.mjs` selects Kokoro's full-precision model, `fp32`. It is a 326 MB download, and `npm run setup` deletes it along with `node_modules`, so the next render downloads it again.
-- Argo's clip hash ignores the model. After changing `dtype`, delete `.argo/<demo>/clips` or the old clips stay in the video. `npm run video` clears them itself when `VOICES` changes, but `npx argo pipeline` doesn't.
+- Argo's clip hash ignores the model. After changing `dtype`, or a speaker, direction or pace in `lib/qwen3.mjs`, delete `.argo/<demo>/clips` or the old clips stay in the video. `npm run video` clears them itself when `VOICES` changes, but `npx argo pipeline` doesn't.
 - Set `VIDEO_SCALE=1` for a run if a machine can't keep up with the default 4K capture.
 - A render that generates new voice clips can record its browser actions slowly, leaving long gaps in the scene report. After changing narration, run `npx argo tts generate demos/<demo>.scenes.json` before `npx argo pipeline`, so the recording starts with every clip cached. `npm run video` does this itself.
 - `argo doctor` reports Playwright browsers as missing even when they are installed. Trust `npm run sample` instead.

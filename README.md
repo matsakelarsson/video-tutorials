@@ -83,6 +83,14 @@ VOICES=marvis npm run sample:call
 
 The first run downloads about 1.2 GB. The command starts mlx-audio's server, makes the voice clips and stops the server before the browser records. Each take is transcribed, and a line with wrong words is recorded again, up to four times. Marvis has two voices, so a scene with a male Kokoro voice name gets one and any other scene gets the other. It ignores `speed`. Its model card lists the Apache 2.0 licence, but check the licence again before using it in a video about a paid product.
 
+Qwen3 is a third local voice for Apple Silicon, and it takes a plain-English direction for how each voice should sound, set in `lib/qwen3.mjs`. Install mlx-audio as above, then render with `VOICES=qwen3`:
+
+```bash
+VOICES=qwen3 npm run sample:call
+```
+
+The first run downloads about 3 GB. Takes are transcribed and retried the same way as Marvis. Its English presets are both male, so female voices use Vivian, whose home language is Chinese. At `speed` 1 it says about 19 characters per second of speech, and only the speech is sped up, so the pauses keep their length. A general direction read every word correctly in a test, while one that said how to pronounce particular words garbled the line. On 2026-11-09 a Qwen3 take won a one-line comparison by ear, and Kokoro stayed the default after a listen to the whole call. The model card lists the Apache 2.0 licence.
+
 Five local models read the six support call lines on an Apple M1 with 8 GB on 2026-11-09. Nobody has compared them by ear yet.
 
 - Marvis 250M averaged 2.7 wrong words out of 79 over three takes, and every line matched the voice it was meant to use.
@@ -105,6 +113,7 @@ Last checked on 2026-11-08 with Argo 0.42.1 and Playwright 1.65.0.
 
 - Linux passed. A fresh clone ran `npm run setup` and `npm run sample` and produced a 17-second 1080p video with voice and captions.
 - macOS rendered the sample and the support call on an Apple M1 with 8 GB on 2026-11-09, with Kokoro and with Marvis. Measurements checked the audio, but nobody has listened to the Mac videos yet.
+- macOS rendered the sample and the support call with Qwen3 on an Apple M1 with 8 GB on 2026-11-09. A speech transcription checked the words.
 - Claude Code has made a video through the `make-video` skill on Linux.
 - The support call example rendered on Linux. A speech transcription, level measurements and a person listening checked its audio.
 - Cursor 3.29.9 on Linux rendered the support call example and made a new demo through the `make-video` skill.

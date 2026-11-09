@@ -22,7 +22,7 @@
   },
   {
     "scene": "problem",
-    "text": "Hi Emma. It's Daniel over at Harbour Books. So I was just going through our accounts and I can't find the March invoice anywhere. I don't think we ever got it. I was wondering if you could send it again.",
+    "text": "Hi Emma. It's Daniel from Harbour Books. So I was just going through our accounts and I can't find the March invoice anywhere. I don't think we ever got it. I was wondering if you could send it again.",
     "voice": "am_michael",
     "speed": 1.3,
     "phone": true,
@@ -45,7 +45,7 @@
   },
   {
     "scene": "found",
-    "text": "All right. There it is. I've got your March invoice right here. And that goes to your accounts email, right?",
+    "text": "All right. Found it. I've got your March invoice right here. And that goes to your billing email, right?",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -56,7 +56,7 @@
   },
   {
     "scene": "address",
-    "text": "Yeah, that's the one. I looked in there and the spam folder too. There's just nothing.",
+    "text": "Yeah, that's the one. I already checked it. The spam folder too. There's just nothing.",
     "voice": "am_michael",
     "speed": 1.3,
     "phone": true,
@@ -68,7 +68,7 @@
   },
   {
     "scene": "resend",
-    "text": "Okay, that's weird. I'll go ahead and send it over again right now.",
+    "text": "Okay, that's weird. I'll go ahead and send it again right now.",
     "voice": "af_heart",
     "speed": 1.2,
     "overlay": {
@@ -102,7 +102,7 @@
   },
   {
     "scene": "thanks",
-    "text": "Oh nice. There it is. It just came in. Thanks so much for sorting that out.",
+    "text": "Oh nice. Here it is. It just came in. Thanks so much for sorting that out.",
     "voice": "am_michael",
     "speed": 1.3,
     "phone": true,
