@@ -54,8 +54,11 @@ const PAGE = `<!doctype html>
       row.innerHTML = '<td>' + month + ' invoice</td><td><button>Send again</button></td>';
       row.querySelector('button').addEventListener('click', () => {
         const sent = document.getElementById('sent');
-        sent.textContent = month + ' invoice sent to accounts@harbourbooks.example';
+        sent.textContent = 'Sending ' + month + ' invoice...';
         sent.hidden = false;
+        setTimeout(() => {
+          sent.textContent = month + ' invoice sent to accounts@harbourbooks.example';
+        }, 5500);
       });
       return row;
     }));
@@ -90,23 +93,50 @@ test('sample-support-call', async ({ page, narration, sounds }) => {
     await page.waitForTimeout(narration.durationFor('problem'));
   });
 
-  // Emma says what she will do, then works while nobody speaks, so the call pauses.
-  // Clicks and key presses make their sounds automatically.
+  // Emma works while she talks: the clicks come first, and durationFor then waits only for
+  // what remains of the line plus the silence after it. leadOutMs sets that silence, so it
+  // doesn't change with the voice speed. Clicks and key presses make their sounds automatically.
   narration.mark('search');
   await withOverlay(page, 'search', async () => {
-    await page.waitForTimeout(narration.durationFor('search'));
     const field = page.getByRole('searchbox', { name: 'Find a customer' });
     await cursor.click(field);
     await demoType(page, field, 'Harbour');
     await cursor.click(page.getByRole('button', { name: 'Harbour Books' }));
     await expect(page.getByRole('heading', { name: 'Harbour Books' })).toBeVisible();
+    // She reads the account during the silence, then goes to the invoice she's about to mention.
+    // A cursor move can run well over its durationMs, so the last wait is what sets the silence.
+    const silence = { leadOutMs: 4350 };
+    await page.waitForTimeout(Math.max(0, narration.durationFor('search', silence) - 2800));
+    await cursor.moveTo(page.getByRole('row', { name: /March/ }), { durationMs: 1000 });
+    await page.waitForTimeout(narration.durationFor('search', silence));
+  });
+
+  // A period is too short a pause in Kokoro, so a beat inside one person's turn is a scene
+  // break with a longer lead-out.
+  narration.mark('found');
+  await withOverlay(page, 'found', async () => {
+    await page.waitForTimeout(narration.durationFor('found', { leadOutMs: 900 }));
   });
 
   narration.mark('resend');
   await withOverlay(page, 'resend', async () => {
-    await page.waitForTimeout(narration.durationFor('resend'));
     await cursor.click(page.getByRole('row', { name: /March/ }).getByRole('button', { name: 'Send again' }));
-    await expect(page.getByRole('status')).toContainText('March invoice sent');
+    // Sending takes time, so the next line waits until the app says it's done.
+    await expect(page.getByRole('status')).toContainText('Sending');
+    await expect(page.getByRole('status')).toContainText('March invoice sent', { timeout: 10_000 });
+    await page.waitForTimeout(narration.durationFor('resend', { leadOutMs: 5370 }));
+  });
+
+  narration.mark('sent');
+  await withOverlay(page, 'sent', async () => {
+    await page.waitForTimeout(narration.durationFor('sent'));
+  });
+
+  narration.mark('check');
+  await withOverlay(page, 'check', async () => {
+    await page.waitForTimeout(narration.durationFor('check'));
+    // The email has to arrive, so nobody talks until it could have.
+    await page.waitForTimeout(4000);
   });
 
   narration.mark('thanks');

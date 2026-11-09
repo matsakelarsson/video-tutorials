@@ -1,12 +1,15 @@
-import { defineConfig, engines } from '@argo-video/cli';
+import { defineConfig } from '@argo-video/cli';
+import { marvis } from './lib/marvis.mjs';
+import { kokoroMisaki } from './lib/misaki.mjs';
 
 export default defineConfig({
   baseURL: 'http://localhost:3000',
   demosDir: 'demos',
   outputDir: 'videos',
   tts: {
-    // Argo defaults to the 92 MB 8-bit model. fp32 is the 326 MB full-precision one.
-    engine: engines.kokoro({ dtype: 'fp32' }),
+    // VOICES=marvis selects the Apple Silicon voice, through scripts/render.mjs.
+    // Argo defaults to Kokoro's 92 MB 8-bit model. fp32 is the 326 MB full-precision one.
+    engine: process.env.VOICES === 'marvis' ? marvis() : kokoroMisaki({ dtype: 'fp32' }),
     defaultVoice: 'af_heart',
     defaultSpeed: 1.1,
   },

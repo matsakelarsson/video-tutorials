@@ -59,27 +59,35 @@ In Cursor or Claude Code, ask for it like this:
 
 > Make a support call video of the app at ~/tools/my-app. The phone rings, a customer says they can't find their invoice, and the employee finds it in the app while they talk. Add click and typing sounds.
 
+Set `"phone": true` on the caller's scenes to give those lines a telephone sound. The video then also gets a quiet room tone, so the pauses aren't digitally silent. Both are in `scripts/render.mjs`.
+
 To render your own demo with sounds, use `npm run video -- <demo> --base-url <url>`. To change how loud a click or key sound is, edit its `gain` in `lib/sounds.ts`. For the ring, edit its `quieterDb` value there. `assets/sfx/README.md` lists where each sound comes from. The phone ring is synthesized, and that file explains how to replace it with a real recording.
 
 The sounds rely on an undocumented part of Argo's export, so confirm they're still in the video after upgrading Argo.
 
 ## Voices
 
-The default voice is Kokoro. It runs locally on both systems and needs no API key. This repository uses its full-precision model, which the first render downloads at 326 MB.
+The default voice is Kokoro. It runs locally on both systems and needs no API key. This repository uses its full-precision model, which the first render downloads at 326 MB. Its pronunciation comes from misaki, which `npm run setup` installs with uv into a Python environment of about 830 MB.
 
 Argo can also use paid voices from ElevenLabs or OpenAI, through `engines.*` in `argo.config.mjs`. `npx argo doctor` prints the package each engine needs.
 
-Argo's built-in voice cloning uses mlx-audio, which targets Apple Silicon, so it is an option on the Mac only. It is not installed or tested here. Chatterbox is a local model with voice cloning that could use an NVIDIA GPU on Linux, but Argo's README doesn't list it, so it would need custom integration.
+Argo's built-in voice cloning uses mlx-audio, which targets Apple Silicon, so it is an option on the Mac only. Cloning is not tested here. Chatterbox is a local model with voice cloning that could use an NVIDIA GPU on Linux, but Argo's README doesn't list it, so it would need custom integration.
 
-The next step is to try mlx-audio on a Mac, for more natural voices than Kokoro. Nobody has run this yet. Argo's `engines.mlxAudio` talks to mlx-audio's local Python server, which needs no API key or account. Start with an ear test that needs no server:
+On Apple Silicon you can use Marvis instead of Kokoro. It is a local model made for conversation, and it needs no API key or account. Linux stays on Kokoro, because mlx-audio lists only Apple Silicon. Install mlx-audio once, then render with `VOICES=marvis`:
 
 ```bash
 brew install uv
 uv tool install --force mlx-audio --prerelease=allow
-mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit --voice Vivian --text "Hey there, it's Emma in support. What can I do for you?"
+VOICES=marvis npm run sample:call
 ```
 
-The command saves `audio_000.wav` in the current folder. If it sounds better than Kokoro, start `mlx_audio.server --port 8000`, set `tts.engine` to `engines.mlxAudio({ model })` in `argo.config.mjs`, and replace the Kokoro voice names in the scene files, because each model has its own voices. Check each model's licence before using it in a video about a paid product. Linux stays on Kokoro, because mlx-audio lists only Apple Silicon.
+The first run downloads about 1.2 GB. The command starts mlx-audio's server, makes the voice clips and stops the server before the browser records. Each take is transcribed, and a line with wrong words is recorded again, up to four times. Marvis has two voices, so a scene with a male Kokoro voice name gets one and any other scene gets the other. It ignores `speed`. Its model card lists the Apache 2.0 licence, but check the licence again before using it in a video about a paid product.
+
+Five local models read the six support call lines on an Apple M1 with 8 GB on 2026-11-09. Nobody has compared them by ear yet.
+
+- Marvis 250M averaged 2.7 wrong words out of 79 over three takes, and every line matched the voice it was meant to use.
+- Giving Marvis the earlier lines as conversation context failed, with about 106 transcription errors per run and 10 of 18 lines closer to the wrong voice. Each line is generated on its own.
+- Marvis 100M averaged 4.3 wrong words. CSM garbled a whole line. Chatterbox Turbo misread the name Emma. Qwen3 read well but used 5.2 GB, and its English presets are male.
 
 ## Capture choice
 
@@ -96,7 +104,7 @@ The test used plain screencast output. `argo.config.mjs` selects Argo's `jpeg-st
 Last checked on 2026-11-08 with Argo 0.42.1 and Playwright 1.65.0.
 
 - Linux passed. A fresh clone ran `npm run setup` and `npm run sample` and produced a 17-second 1080p video with voice and captions.
-- macOS has not run on a real Mac. npm resolves the Apple Silicon packages from the lockfile, and `scripts/setup.sh` runs on bash 3.2 with its install commands replaced by stand-ins.
+- macOS rendered the sample and the support call on an Apple M1 with 8 GB on 2026-11-09, with Kokoro and with Marvis. Measurements checked the audio, but nobody has listened to the Mac videos yet.
 - Claude Code has made a video through the `make-video` skill on Linux.
 - The support call example rendered on Linux. A speech transcription, level measurements and a person listening checked its audio.
 - Cursor 3.29.9 on Linux rendered the support call example and made a new demo through the `make-video` skill.

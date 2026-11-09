@@ -54,6 +54,25 @@ if [ "$os" = "Linux" ] && ! node -e "require('playwright').chromium.launch().the
   sudo npx playwright install-deps chromium
 fi
 
+if ! command -v uv >/dev/null 2>&1; then
+  echo "Installing uv..."
+  if [ "$os" = "Darwin" ]; then
+    if ! command -v brew >/dev/null 2>&1; then
+      echo "uv is missing and Homebrew is not installed. Install Homebrew from https://brew.sh and rerun this script." >&2
+      exit 1
+    fi
+    brew install uv
+  else
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+fi
+
+# misaki gives the Kokoro voice its pronunciation. Python is fixed at 3.12 because spaCy,
+# which misaki needs, has no builds for the newest Python versions.
+uv venv --allow-existing --python 3.12 .venv
+uv pip install --python .venv/bin/python -r requirements.txt
+
 npx argo doctor
 echo
 echo "Setup finished. Run 'npm run sample' to render a test video to videos/sample.mp4."
